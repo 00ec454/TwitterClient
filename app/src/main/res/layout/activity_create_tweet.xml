@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dharmesh.twitterclient.activities.CreateTweetActivity">
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/heart" />
+
+    <ImageView
+        android:id="@+id/ivClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/ivProfile"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        app:srcCompat="@drawable/close" />
+
+    <EditText
+        android:id="@+id/etTweet"
+        android:layout_width="wrap_content"
+        android:hint="@string/tweet_hint"
+        android:gravity="start"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btTweet"
+        android:layout_alignEnd="@+id/btTweet"
+        android:layout_alignLeft="@+id/ivClose"
+        android:layout_alignRight="@+id/btTweet"
+        android:layout_alignStart="@+id/ivClose"
+        android:layout_below="@+id/ivClose"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/btTweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ivProfile"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/ivProfile"
+        android:layout_marginBottom="16dp"
+        android:text="@string/tweet" />
+
+    <TextView
+        android:id="@+id/tvCharCounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btTweet"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_toLeftOf="@+id/btTweet"
+        android:layout_toStartOf="@+id/btTweet"
+        android:text="12" />
+</RelativeLayout>
