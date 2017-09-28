@@ -19,7 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CreateTweetActivity"></activity>
+        <activity android:name=".activities.CreateTweetActivity" />
+        <activity android:name=".activities.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="vistrav.com"
+                    android:scheme="x-oauthflow-twitter" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

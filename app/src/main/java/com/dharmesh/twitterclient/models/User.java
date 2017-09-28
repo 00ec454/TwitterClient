@@ -43,7 +43,6 @@ public class User {
     private String url;
     @SerializedName("description")
     private String description;
-    @SerializedName("url")
     private String verified;
     @SerializedName("followers_count")
     private long followersCount;
@@ -65,4 +64,148 @@ public class User {
     private String lang;
     @SerializedName("profile_image_url_https")
     private String profileImageUrl;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getIdStr() {
+        return idStr;
+    }
+
+    public void setIdStr(String idStr) {
+        this.idStr = idStr;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getVerified() {
+        return verified;
+    }
+
+    public void setVerified(String verified) {
+        this.verified = verified;
+    }
+
+    public long getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(long followersCount) {
+        this.followersCount = followersCount;
+    }
+
+    public long getListedCount() {
+        return listedCount;
+    }
+
+    public void setListedCount(long listedCount) {
+        this.listedCount = listedCount;
+    }
+
+    public long getFavouritesCount() {
+        return favouritesCount;
+    }
+
+    public void setFavouritesCount(long favouritesCount) {
+        this.favouritesCount = favouritesCount;
+    }
+
+    public long getStatusesCount() {
+        return statusesCount;
+    }
+
+    public void setStatusesCount(long statusesCount) {
+        this.statusesCount = statusesCount;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public long getUtcOffset() {
+        return utcOffset;
+    }
+
+    public void setUtcOffset(long utcOffset) {
+        this.utcOffset = utcOffset;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public boolean isGeoEnabled() {
+        return geoEnabled;
+    }
+
+    public void setGeoEnabled(boolean geoEnabled) {
+        this.geoEnabled = geoEnabled;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
 }
