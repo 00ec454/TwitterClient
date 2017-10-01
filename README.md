@@ -47,13 +47,14 @@ The following **additional** features are implemented:
 
 * [X] List anything else that you can get done to improve the app functionality!
  * [X] Used Java8 Lamba
+ * [X] Circlular Profile View
  * [X] Used [pop](https://github.com/00ec454/pop) library for model
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/sDnhEK8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
