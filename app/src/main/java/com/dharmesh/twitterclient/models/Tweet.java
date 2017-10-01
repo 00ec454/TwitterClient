@@ -58,6 +58,15 @@ public class Tweet {
     private String filterLevel;
     @SerializedName("lang")
     private String lang;
+    private Entity entities;
+
+    public Entity getEntities() {
+        return entities;
+    }
+
+    public void setEntities(Entity entities) {
+        this.entities = entities;
+    }
 
     public Date getCreatedAt() {
         return createdAt;
