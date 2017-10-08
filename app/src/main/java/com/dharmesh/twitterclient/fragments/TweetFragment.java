@@ -26,6 +26,7 @@ import com.dharmesh.twitterclient.adapters.TweetAdapter;
 import com.dharmesh.twitterclient.models.Tweet;
 import com.dharmesh.twitterclient.models.User;
 import com.dharmesh.twitterclient.network.TwitterClient;
+import com.dharmesh.twitterclient.network.TwitterClient.TimelineType;
 import com.dharmesh.twitterclient.util.CropCircleTransformation;
 import com.dharmesh.twitterclient.util.EndlessRecyclerViewScrollListener;
 import com.google.gson.FieldNamingPolicy;
@@ -41,6 +42,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cz.msebera.android.httpclient.Header;
+
+import static com.dharmesh.twitterclient.network.TwitterClient.TimelineType.HOME_TIMELINE;
+import static com.dharmesh.twitterclient.network.TwitterClient.TimelineType.MENTION;
 
 /**
  * Created by dgohil on 10/3/17.
@@ -93,7 +97,7 @@ public class TweetFragment extends Fragment {
         }
     };
 
-    public static TweetFragment newInstance(String screenName, TwitterClient.TimelineType type) {
+    public static TweetFragment newInstance(String screenName, TimelineType type) {
         Bundle args = new Bundle();
         args.putString(SCREEN_NAME, screenName);
         args.putString(TIME_LINE_TYPE, type.toString());
@@ -124,14 +128,14 @@ public class TweetFragment extends Fragment {
         refreshOnSwipe();
         timeLineType = getArguments().getString(TIME_LINE_TYPE);
         screenName = getArguments().getString(SCREEN_NAME, "DharmeshGohil");
-        twitterClient.getTimeline(screenName, TwitterClient.TimelineType.valueOf(timeLineType), 0, responseHandler);
+        twitterClient.getTimeline(screenName, TimelineType.valueOf(timeLineType), 0, responseHandler);
     }
 
     public void refreshOnSwipe() {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             hasSwiped = true;
-            twitterClient.getTimeline(screenName, TwitterClient.TimelineType.valueOf(timeLineType), 0, responseHandler);
+            twitterClient.getTimeline(screenName, TimelineType.valueOf(timeLineType), 0, responseHandler);
         });
     }
 
@@ -140,6 +144,9 @@ public class TweetFragment extends Fragment {
                 .layout(R.layout.activity_create_tweet)
                 .show(view13 -> {
                     etTweet = view13.findViewById(R.id.etTweet);
+                    if (!Arrays.asList(MENTION, HOME_TIMELINE).contains(TimelineType.valueOf(timeLineType))) {
+                        etTweet.setText(String.format("@%s", screenName));
+                    }
                     final ImageView ivClose = view13.findViewById(R.id.ivClose);
                     ivClose.setOnClickListener(TweetFragment.this::closeDialog);
                     final Button btTweet = view13.findViewById(R.id.btTweet);
@@ -189,7 +196,7 @@ public class TweetFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                twitterClient.getTimeline(screenName, TwitterClient.TimelineType.valueOf(timeLineType), maxId, responseHandler);
+                twitterClient.getTimeline(screenName, TimelineType.valueOf(timeLineType), maxId, responseHandler);
             }
         };
         rvTweets.addOnScrollListener(scrollListener);
