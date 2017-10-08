@@ -2,170 +2,85 @@ package com.dharmesh.twitterclient.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dharmesh.twitterclient.R;
-import com.dharmesh.twitterclient.util.EndlessRecyclerViewScrollListener;
-import com.dharmesh.twitterclient.adapters.TweetAdapter;
-import com.dharmesh.twitterclient.models.Tweet;
-import com.dharmesh.twitterclient.models.User;
-import com.dharmesh.twitterclient.network.TwitterClient;
-import com.dharmesh.twitterclient.util.CropCircleTransformation;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.GsonBuilder;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.squareup.picasso.Picasso;
-import com.vistrav.pop.Pop;
+import com.dharmesh.twitterclient.fragments.TweetFragment;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import cz.msebera.android.httpclient.Header;
+import static com.dharmesh.twitterclient.network.TwitterClient.TimelineType.HOME_TIMELINE;
+import static com.dharmesh.twitterclient.network.TwitterClient.TimelineType.MENTION;
 
 public class IndexActivity extends AppCompatActivity {
 
     private static final String TAG = IndexActivity.class.getSimpleName();
-    private RecyclerView rvTweets;
-    private GsonBuilder builder = new GsonBuilder()
-            .setDateFormat("EEE MMM dd HH:mm:ss Z yyyy")
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-    private TweetAdapter tweetAdapter;
-    private TwitterClient twitterClient;
-    private boolean hasSwiped;
-    private long maxId = -1;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    final private JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-            Tweet tweet = builder.create().fromJson(response.toString(), Tweet.class);
-            tweetAdapter.addOne(tweet);
-            rvTweets.scrollToPosition(0);
-        }
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-            Tweet[] tweets = builder.create().fromJson(response.toString(), Tweet[].class);
-            setMaxId(tweets);
-            if (hasSwiped) {
-                tweetAdapter.refresh(Arrays.asList(tweets));
-                swipeRefreshLayout.setRefreshing(false);
-                hasSwiped = false;
-            } else {
-                tweetAdapter.addAll(Arrays.asList(tweets));
-            }
-        }
-
-    };
-    private AlertDialog tweetDialog;
-    private EditText etTweet;
-    private EndlessRecyclerViewScrollListener scrollListener;
+    private ViewPager pager;
+    private TabLayout tabs;
+    private TweetsTimelineAdapter timelineAdapter;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
-        authenticateUser();
-        initializeRecyclerView();
-        refreshOnSwipe();
-        twitterClient.getHomeTimeline(0, responseHandler);
+        tabs = findViewById(R.id.tabs);
+        pager = findViewById(R.id.pager);
+        timelineAdapter = new TweetsTimelineAdapter(getSupportFragmentManager());
+        pager.setAdapter(timelineAdapter);
+        pager.setOffscreenPageLimit(0);
+        tabs.setupWithViewPager(pager);
     }
 
-    private void initializeRecyclerView() {
-        rvTweets = findViewById(R.id.rvTweets);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rvTweets.setLayoutManager(linearLayoutManager);
-        tweetAdapter = new TweetAdapter(this, new ArrayList<>());
-        rvTweets.setAdapter(tweetAdapter);
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                twitterClient.getHomeTimeline(maxId, responseHandler);
-            }
-        };
-        rvTweets.addOnScrollListener(scrollListener);
-    }
-
-    private void authenticateUser() {
-        twitterClient = new TwitterClient(this);
-        if (!twitterClient.isAuthenticated()) {
-            startActivity(new Intent(this, LoginActivity.class));
+    @Override
+    public void setContentView(int layoutResId) {
+        super.setContentView(layoutResId);
+        toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setTitle("Twitter");
         }
     }
 
-    public void refreshOnSwipe() {
-        swipeRefreshLayout
-                = findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            hasSwiped = true;
-            twitterClient.getHomeTimeline(0, responseHandler);
-
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_index, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    public void composeTweet(View view) {
-        tweetDialog = Pop.on(this)
-                .layout(R.layout.activity_create_tweet)
-                .show(view13 -> {
-                    etTweet = view13.findViewById(R.id.etTweet);
-                    final ImageView ivProfile = view13.findViewById(R.id.ivProfile);
-                    final TextView tvCharCounts = view13.findViewById(R.id.tvCharCounts);
-                    etTweet.setOnKeyListener((view12, i, keyEvent) -> {
-                        if (keyEvent.getAction() == KeyEvent.ACTION_UP) {
-                            tvCharCounts.setText(String.valueOf(140 - etTweet.getText().toString().length()));
-                        }
-                        return true;
-                    });
-                    twitterClient.getUser("DharmeshGohil", new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            User user = builder.create().fromJson(response.toString(), User.class);
-                            Picasso.with(IndexActivity.this)
-                                    .load(user.getProfileImageUrl())
-                                    .transform(new CropCircleTransformation())
-                                    .into(ivProfile);
-                        }
-                    });
-                });
+    public void showProfile(MenuItem item) {
+        startActivity(new Intent(this, ProfileActivity.class));
     }
 
-    public void tweet(View view) {
-        String status = etTweet.getText().toString();
-        if (status.length() > 140 || status.length() < 3) {
-            Toast.makeText(getBaseContext(), R.string.valdate_msg, Toast.LENGTH_LONG).show();
-        } else {
-            twitterClient.tweet(status, responseHandler);
-            tweetDialog.dismiss();
+    public class TweetsTimelineAdapter extends FragmentPagerAdapter {
+
+        public TweetsTimelineAdapter(FragmentManager fm) {
+            super(fm);
         }
-    }
 
-    public void closeDialog(View view) {
-        if (tweetDialog != null && tweetDialog.isShowing()) {
-            tweetDialog.dismiss();
+        @Override
+        public Fragment getItem(int position) {
+            return TweetFragment.newInstance("DharmeshGohil", position == 0 ? HOME_TIMELINE : MENTION);
         }
-    }
 
-    private void setMaxId(Tweet... tweets) {
-        if (tweets == null || tweets.length == 0) {
-            maxId = -1;
-            return;
+        @Override
+        public int getCount() {
+            return 2;
         }
-        maxId = tweets[0].getId();
-        for (Tweet tweet : tweets) {
-            maxId = Math.min(maxId, tweet.getId());
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return position == 0 ? "Home" : "Mention";
         }
     }
 }

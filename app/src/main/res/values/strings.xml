@@ -3,4 +3,5 @@
     <string name="tweet">Tweet</string>
     <string name="tweet_hint">What\'s happening?</string>
     <string name="valdate_msg">Tweet message should be less than 140 characters</string>
+    <string name="profile">Profile</string>
 </resources>

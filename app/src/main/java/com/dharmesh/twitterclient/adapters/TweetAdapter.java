@@ -1,6 +1,7 @@
 package com.dharmesh.twitterclient.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dharmesh.twitterclient.R;
+import com.dharmesh.twitterclient.activities.ProfileActivity;
 import com.dharmesh.twitterclient.models.Entity;
 import com.dharmesh.twitterclient.models.Tweet;
 import com.dharmesh.twitterclient.util.CropCircleTransformation;
@@ -154,6 +156,11 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     .load(tweet.getUser().getProfileImageUrl())
                     .transform(new CropCircleTransformation())
                     .into(ivProfile);
+            ivProfile.setOnClickListener(view -> {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra(ProfileActivity.SCREEN_NAME, tweet.getUser().getScreenName());
+                context.startActivity(intent);
+            });
 
         }
     }

@@ -26,7 +26,6 @@
         android:layout_alignTop="@+id/ivProfile"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:onClick="closeDialog"
         app:srcCompat="@drawable/close" />
 
     <EditText
@@ -54,7 +53,6 @@
         android:layout_alignRight="@+id/ivProfile"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
-        android:onClick="tweet"
         android:backgroundTint="#1da1f2"
         android:textColor="@android:color/white"
         android:text="@string/tweet"

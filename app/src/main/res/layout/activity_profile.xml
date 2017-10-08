@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dharmesh.twitterclient.activities.ProfileActivity">
+
+    <RelativeLayout
+        android:id="@+id/rlcover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivCoverImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cover_image_height"
+            android:background="@color/colorPrimary"
+            android:scaleType="fitXY"
+            tools:src="@mipmap/ic_launcher" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:minHeight="?attr/actionBarSize" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="@dimen/user_image_width"
+        android:layout_height="@dimen/user_image_height"
+        android:layout_marginLeft="@dimen/margin_left_8dp"
+        android:layout_marginTop="@dimen/user_image_margin_top"
+        tools:src="@mipmap/ic_launcher" />
+
+    <RelativeLayout
+        android:id="@+id/rlProfileDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_margin="@dimen/profile_relative_margin">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/nam_size_18"
+            android:textStyle="bold"
+            tools:text="Dharmesh Gohil" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvName"
+            tools:text="DharmeshGohil" />
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvUserName"
+            android:layout_marginTop="@dimen/user_status_margin_top"
+            android:autoLink="all"
+            android:clickable="true"
+            tools:text="This is my twitter test profile" />
+
+        <TextView
+            android:id="@+id/tvCountFollowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvInfo"
+            android:layout_marginTop="@dimen/margin_yop_8"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/tvFollowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvInfo"
+            android:layout_marginLeft="@dimen/margin_left_8dp"
+            android:layout_marginTop="@dimen/margin_left_8dp"
+            android:layout_toRightOf="@id/tvCountFollowing"
+            android:text="FOLLOWING" />
+
+        <TextView
+            android:id="@+id/tvCountFollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvInfo"
+            android:layout_marginLeft="@dimen/margin_left_24"
+            android:layout_marginTop="@dimen/margin_left_8dp"
+            android:layout_toRightOf="@id/tvFollowing"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            tools:text="15000" />
+
+        <TextView
+            android:id="@+id/tvFollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvInfo"
+            android:layout_marginLeft="@dimen/margin_left_8dp"
+            android:layout_marginTop="@dimen/margin_left_8dp"
+            android:layout_toRightOf="@id/tvCountFollowers"
+            android:text="FOLLOWERS" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height"
+            android:layout_below="@id/tvCountFollowing"
+            android:layout_marginTop="@dimen/margin_left_8dp"
+            android:background="@color/cardview_light_background" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlProfileDetail">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sliding_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:tabMode="scrollable"
+            app:tabTextColor="@android:color/white" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vpPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sliding_tabs"
+            android:layout_weight="1" />
+    </RelativeLayout>
+</RelativeLayout>

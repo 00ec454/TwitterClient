@@ -64,6 +64,26 @@ public class User {
     private String lang;
     @SerializedName("profile_image_url_https")
     private String profileImageUrl;
+    @SerializedName("profile_background_image_url")
+    private String profileBackgroundImageUrl;
+    @SerializedName("friends_count")
+    private long friendsCount;
+
+    public String getProfileBackgroundImageUrl() {
+        return profileBackgroundImageUrl;
+    }
+
+    public void setProfileBackgroundImageUrl(String profileBackgroundImageUrl) {
+        this.profileBackgroundImageUrl = profileBackgroundImageUrl;
+    }
+
+    public long getFriendsCount() {
+        return friendsCount;
+    }
+
+    public void setFriendsCount(long friendsCount) {
+        this.friendsCount = friendsCount;
+    }
 
     public long getId() {
         return id;
